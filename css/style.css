@@ -113,6 +113,9 @@ img {
   padding: 3rem;
 }
 
+li ul {display: none}
+li.open ul {display: block}
+
 /* main navbar */
 #main-nav {
   position: sticky;
@@ -296,14 +299,6 @@ img {
   color: var(--font-color);
   margin-bottom: 1px;
   border-left: 20px solid transparent;
-}
-
-#document-main .side-container .side-menu ul li ul {
-  display: none;
-}
-
-#document-main .side-container .side-menu ul li:hover ul {
-  display: block;
 }
 
 /* Document main content */
