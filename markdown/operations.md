@@ -5,20 +5,16 @@
 * 设置GPIO为输入：
   * ACTION 发送格式:
 
-        ["gpio", {PIN_NAME}, "input", {PULL_UP_RESISTOR_ENABLE}]
+        ["gpio", {PIN_INDEX}, "input", {PULL_UP_RESISTOR_ENABLE}]
         说明：
-        {PIN_NAME}: P + {PORT_NAME} + {PIN_NUMBER}, 比如PA0, PB3。
-          {PORT_NAME}: B/D/E/F/G/H/J/K/L
-          {PIN_NUMBER}: 从0到7
-          系统预留一部分pin脚作为内部使用，用户无法使用如下的pin脚
-          PB0-3 / PD0-1 / PD7 / PG1-2 / PG5-6 / PJ0-1 / PL6-7
+        {PIN_INDEX}: 0 - 41
         {PULL_UP_RESISTOR_ENABLE}：1表示使用上拉电阻，0表示不使用
 
-        以下的例子设置PG0为输入，并且使用上拉电阻：
-        ["gpio", "PG0", "input", 1]
+        以下的例子设置pin 10为输入，并且使用上拉电阻：
+        ["gpio", 10, "input", 1]
 
   * ACTION 返回格式:
-        
+
         [{PIN_STATE}]
         说明：1表示pin脚目前为高电平，0表示pin脚目前为低电平。
         比如返回如下值代表当前pin脚为低电平：
@@ -27,16 +23,16 @@
 * 设置GPIO为输出：
   * ACTION 发送格式：
 
-        ["gpio", {PIN_NAME}, "output", {MODE}]
+        ["gpio", {PIN_INDEX}, "output", {MODE}]
         说明：
-        {PIN_NAME}：说明如上
+        {PIN_INDEX}：说明如上
         {MODE}: 可以选择如下
           0: 输出为高电平
           1：输出为低电平
           2：高低反转
-        
-        以下的例子设置PG0输出低电平
-        ["gpio", "PG0", "output", 0]
+
+        以下的例子设置pin 10输出低电平
+        ["gpio", 10, "output", 0]
 
 
   * ACTION 返回格式：
@@ -50,13 +46,13 @@
 ADC使用10-bit的采样精度(0 - 1023)，参考电压可以在5V, 2.56V和1.1V之间选择。
 * ACTION 发送格式
 
-        {"adc", {VOLTAGE_REFERENCE}, {CHANNEL}]
+        {"adc", {ADC_CHANNEL_ID}, {VOLTAGE_REFERENCE}]
         说明：
+        {ADC_CHANNEL_ID}: 选择ADC通道，0-15
         {VOLTAGE_REFERENCE}: 选择参考电压，可选5v, 2.56v或1.1v。(注意需要小写'v')
-        {CHANNEL}: 选择ADC通道，0-15
-        
+
         以下的例子获得ADC通道1的值:
-        ["adc", "5v", 1]
+        ["adc", 1, "5v"]
 
 * ACTION 返回格式
 
@@ -67,9 +63,9 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
 * 开启PWM
   * ACTION 发送格式：
 
-        ["pwm", {TIMER_SELECTION}, "enabled", {TIME_UNITS}, {PERIOD}, {DUTY_CYCLE_A}, {DUTY_CYCLE_B}, {DUTY_CYCLE_C}, {DURATION_IN_10MS}]
+        ["pwm", {TIMER_INDEX}, "enabled", {TIME_UNITS}, {PERIOD}, {DUTY_CYCLE_A}, {DUTY_CYCLE_B}, {DUTY_CYCLE_C}, {DURATION_IN_10MS}]
         说明：
-        {TIMER_SELECTION}: 计时器选择，目前可选t4或者t5
+        {TIMER_INDEX}: 计时器选择，目前可选0或者1
         {TIME_UNITS}: 时间单位选择，目前可选ms或者us
         {PERIOD}: 时间周期
         {DUTY_CYCLE_A}: PWM输出1的占空比
@@ -77,9 +73,9 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
         {DUTY_CYCLE_C}: PWM输出3的占空比
         {DURATION_IN_10MS}: 该pwm输出的时间(单位是10ms)，如果输入-1，则pin脚会持续输出PWM方波。
 
-        以下的例子使用定时器t4, 输出的周期为20ms，三个输出pin脚分别输出占空比为20%，40%和80%的方波，PWM输出持续1秒：
-        ["pwm", "t4", "enabled", "ms", 20, 20, 40, 80, 100]
-        
+        以下的例子使用定时器0, 输出的周期为20ms，三个输出pin脚分别输出占空比为20%，40%和80%的方波，PWM输出持续1秒：
+        ["pwm", 0, "enabled", "ms", 20, 20, 40, 80, 100]
+
 
   * ACTION 返回格式：
 
@@ -88,9 +84,9 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
 * 关闭PWM
   * ACTION 发送格式：
 
-        ["pwm", {TIMER_SELECTION}, "disabled"]
+        ["pwm", {TIMER_INDEX}, "disabled"]
         说明：
-        {TIMER_SELECTION}: 计时器选择，目前可选t4或者t5
+        {TIMER_INDEX}: 计时器选择，目前可选t4或者t5
 
   * ACTION 返回格式：
 
@@ -100,9 +96,10 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
 系统提供SPI通信接口，由4条信号线组成，MISO, MOSI, SCK和CS信号。用户可自己定义大多数SPI模块的参数，包括速率，CS pin 脚，发送数据的顺序等等，该SPI模块可适应大多数支持SPI接口的外设。
 
 * ACTION 发送格式：
-        
-        ["spi", {SPEED_LEVEL}, {CS_PIN}, {SAMPLE_MODE}, {MSB/LSB}, {RECEIVE_DATA_LENGTH}, {SEND_DATA_LENGTH}, {DATA_TO_SEND}]
+
+        ["spi", {SPI_INDEX} {SPEED_LEVEL}, {CS_PIN}, {SAMPLE_MODE}, {MSB/LSB}, {RECEIVE_DATA_LENGTH}, {SEND_DATA_LENGTH}, {DATA_TO_SEND}]
         说明：
+        {SPI_INDEX}: 板子有一个SPI通道，该参数需固定为0
         {SPEED_LEVEL}: SPI速率可选，可选0，1，2。
           0: 8Mbit/s
           1: 4Mbit/s
@@ -120,9 +117,9 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
         {SEND_DATA_LENGTH}：SPI需要发送多少字节的数据
         {DATA_TO_SEND}: SPI发送的数据 (可选)
 
-        以下例子展示用每秒8 Mbit的速率发送0x1, 0x2, 0x3, 0x4到接收端，并返回10个从接收端返回的字节，CS pin脚是PK0：
-        ["spi", 0, PK0, "lr", "msb", 10, 4, 1, 2, 3, 4]
-        
+        以下例子展示用每秒4 Mbit的速率发送0x1, 0x2, 0x3, 0x4到接收端，并返回10个从接收端返回的字节，CS pin脚是15：
+        ["spi", 0, 1, 15, "lr", "msb", 10, 4, 1, 2, 3, 4]
+
 
 * ACTION 返回格式：
 
@@ -134,9 +131,9 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
 系统为用户提供了3个UART模块，每个模块可以独立运行，有多个波特率可选。如果需要接收端发回数据，用户需要指定最长的指定时间，系统会在发送完数据后等待接收端返回指定个数的数据，当接收到足够数量的数据后，系统会自动返回并发回数据；否则，系统会一直等待，直到最长的等待时间结束。
 * ACTION 发送格式
 
-        ["uart", {UART_MODULE}, {SPEED_SELECTION}, {PARITY_ENABLE}, {STOP_BIT},{DATA_SIZE}, {RECEIVE_TIME_OUT_SEC}, {RECEIVE_DATA_LENGTH}, {SEND_DATA_LENGTH}, {DATA_TO_SEND}]
+        ["uart", {UART_INDEX} {UART_MODULE}, {SPEED_SELECTION}, {PARITY_ENABLE}, {STOP_BIT},{DATA_SIZE}, {RECEIVE_TIME_OUT_SEC}, {RECEIVE_DATA_LENGTH}, {SEND_DATA_LENGTH}, {DATA_TO_SEND}]
         说明：
-        {UART_MODULE}: UART模块选择，可选u1/u2/u3
+        {UART_INDEX}: UART ID选择，目前板子上有3个UART模块，可以选择0-2
         {SPEED_SELECTION}:　UART速率选择，可选9k/38k/115k
           9k对应的波特率：9600
           38k对应的波特率：38400
@@ -155,8 +152,8 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
         {SEND_DATA_LENGTH}:　发送的数据长度
         {DATA_TO_SEND}:　发送的数据
 
-        比如，以下例子，用9600的波特率从u1发送数据(1,2,3,4)到接收端，发送时不使用奇偶校验，1位停止位，8bit的数据包，并等待接收10字节的数据，最多等待5秒。
-        ["uart", "u1", "9k", "disabled", 1, 8, 5, 10, 4, 1, 2, 3, 4]
+        比如，以下例子，用9600的波特率从模块2发送数据(1,2,3,4)到接收端，发送时不使用奇偶校验，1位停止位，8bit的数据包，并等待接收10字节的数据，最多等待5秒。
+        ["uart", 2, "9k", "disabled", 1, 8, 5, 10, 4, 1, 2, 3, 4]
 
 * ACTION 返回格式
 
@@ -169,8 +166,9 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
 * I2C读操作
   * ACTION 发送格式
 
-        ["i2c", "read", {SPEED_IN_HUNDRED_KHZ}, {DEVICE_ADDRESS}, {REGISTER_ADDRESS}, {RECEIVE_DATA_LENGTH}]
+        ["i2c", {I2C_ID}, "read", {SPEED_IN_HUNDRED_KHZ}, {DEVICE_ADDRESS}, {REGISTER_ADDRESS}, {RECEIVE_DATA_LENGTH}]
         说明：
+        {I2C_ID}: I2C模块选择，板子上有一个I2C模块，该参选只支持0
         {SPEED_IN_HUNDRED_KHZ}: I2C速度选择，可选1/2/3/4
           1: 100kHz
           2: 200kHz
@@ -181,7 +179,7 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
         {RECEIVE_DATA_LENGTH}：需要接收多少字节的数据
 
         比如，要用400kHz的速率读取I2C外设(地址0x21或十进制33)中的10个字节的数据(无寄存器地址)：
-        ["i2c", "read", 4, 33, -1, 10]
+        ["i2c", 0, "read", 4, 33, -1, 10]
 
   * ACTION 返回格式
 
@@ -192,11 +190,11 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
 * I2C写操作
   * ACTION 发送格式
 
-        ["i2c", "write", {SPEED_IN_KHZ}, {DEVICE_ADDRESS}, {REGISTER_ADDRESS}, {SEND_DATA_LENGTH}, {DATA_TO_SEND}]
+        ["i2c", {I2C_ID}, "write", {SPEED_IN_KHZ}, {DEVICE_ADDRESS}, {REGISTER_ADDRESS}, {SEND_DATA_LENGTH}, {DATA_TO_SEND}]
         说明：
         请参考以上读操作的说明。
         比如，要发送10个字节的数据(从0到9),到地址0x21或十进制33,使用相同的参数：
-        ["i2c", "write", 4, 33, -1, 10, 0, 1, 2, 3, 4, 5, 6, ,7 ,8, 9]
+        ["i2c", 0, "write", 4, 33, -1, 10, 0, 1, 2, 3, 4, 5, 6, ,7 ,8, 9]
 
 
   * ACTION 返回格式
@@ -208,24 +206,26 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
 * 进行文件的读操作
   * ACTION 发送格式
 
-        "file" "read" [FILE_NAME]
+        ["file", {FILE_ID}, "read", {FILE_NAME}]
         说明：
-        [FILE_NAME]:　文件名称
-        
+        {FILE_ID}: 文件ID, 该参数固定为0
+        {FILE_NAME}:　文件名称
+
         以下例子读取test.txt文件：
-        ["file", "read", "test.txt"]
+        ["file", 0, "read", "test.txt"]
 
   * ACTION 返回格式
 
-        [FILE_CONTENT]:　文件内容
+        {FILE_CONTENT}:　文件内容
         比如，test.txt文件中的内容为hellotest!，则返回数据为：
-        ["hellotest!"]
+        {"hellotest!"}
 
 * 进行文件的写操作
   * ACTION 发送格式
 
-        ["file" "read" {FILE_NAME}　{FILE_CONTENT}]
+        ["file", {FILE_ID}, "read", {FILE_NAME},　{FILE_CONTENT}]
         说明：
+        {FILE_ID}: 文件ID, 该参数固定为0
         {FILE_NAME}:　文件名称
         {FILE_CONTENT}: 文件内容
 
@@ -248,9 +248,12 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
 * 时钟读取命令
   * ACTION 发送格式
 
-        ["rtc", "read"]
+        ["rtc", {RTC_ID}, "read"]
+        说明：
+        {RTC_ID}: RTC ID，该参数固定为0
+
         比如，发送如下的ACTION读取RTC的值：
-        ["rtc", "read"]
+        ["rtc", 0, "read"]
 
   * ACTION 返回格式
 
@@ -264,11 +267,11 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
 * 时钟修改命令
   * ACTION　发送格式
 
-        ["rtc", "write", {YEAR}, {MONTH}, {DATE}, {HOUR}, {MINUTE}, {SECOND}]
+        ["rtc", {RTC_ID}, "write", {YEAR}, {MONTH}, {DATE}, {HOUR}, {MINUTE}, {SECOND}]
         说明：
         参数的介绍如上所述。
         比如，将RTC的时间修改为2015年，3月6号，8点48分21秒:
-        ["rtc", "write", 15, 3, 6, 8, 48, 21]
+        ["rtc", 0， "write", 15, 3, 6, 8, 48, 21]
 
   * ACTION　返回格式
 
