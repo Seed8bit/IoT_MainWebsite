@@ -131,7 +131,7 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
 系统为用户提供了3个UART模块，每个模块可以独立运行，有多个波特率可选。如果需要接收端发回数据，用户需要指定最长的指定时间，系统会在发送完数据后等待接收端返回指定个数的数据，当接收到足够数量的数据后，系统会自动返回并发回数据；否则，系统会一直等待，直到最长的等待时间结束。
 * ACTION 发送格式
 
-        ["uart", {UART_INDEX} {UART_MODULE}, {SPEED_SELECTION}, {PARITY_ENABLE}, {STOP_BIT},{DATA_SIZE}, {RECEIVE_TIME_OUT_SEC}, {RECEIVE_DATA_LENGTH}, {SEND_DATA_LENGTH}, {DATA_TO_SEND}]
+        ["uart", {UART_INDEX}, {SPEED_SELECTION}, {PARITY_ENABLE}, {STOP_BIT},{DATA_SIZE}, {RECEIVE_TIME_OUT_SEC}, {RECEIVE_DATA_LENGTH}, {SEND_DATA_LENGTH}, {DATA_TO_SEND}]
         说明：
         {UART_INDEX}: UART ID选择，目前板子上有3个UART模块，可以选择0-2
         {SPEED_SELECTION}:　UART速率选择，可选9k/38k/115k

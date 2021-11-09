@@ -28,7 +28,7 @@ SD卡文件系统需要包括如下文件夹，
     * 示例：请将该JSON文件保存到user文件夹，并命名为`boot.json`，当系统上电后，引脚10会设置为高电平:
 
 ```
-{  
+{
   "event":"now",
   "actions": [["gpio", 10, "output", "high"]],
 }
