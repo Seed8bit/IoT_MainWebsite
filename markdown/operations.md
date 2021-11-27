@@ -65,7 +65,7 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
 
         ["pwm", {TIMER_INDEX}, "enabled", {TIME_UNITS}, {PERIOD}, {DUTY_CYCLE_A}, {DUTY_CYCLE_B}, {DUTY_CYCLE_C}, {DURATION_IN_10MS}]
         说明：
-        {TIMER_INDEX}: 计时器选择，目前可选0或者1
+        {TIMER_INDEX}: 计时器选择，目前可选1或者2
         {TIME_UNITS}: 时间单位选择，目前可选ms或者us
         {PERIOD}: 时间周期
         {DUTY_CYCLE_A}: PWM输出1的占空比
@@ -133,7 +133,7 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
 
         ["uart", {UART_INDEX}, {SPEED_SELECTION}, {PARITY_ENABLE}, {STOP_BIT},{DATA_SIZE}, {RECEIVE_TIME_OUT_SEC}, {RECEIVE_DATA_LENGTH}, {SEND_DATA_LENGTH}, {DATA_TO_SEND}]
         说明：
-        {UART_INDEX}: UART ID选择，目前板子上有3个UART模块，可以选择0-2
+        {UART_INDEX}: UART ID选择，目前板子上有3个UART模块，可以选择1-3
         {SPEED_SELECTION}:　UART速率选择，可选9k/38k/115k
           9k对应的波特率：9600
           38k对应的波特率：38400
