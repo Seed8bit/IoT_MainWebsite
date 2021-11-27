@@ -68,13 +68,13 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
         {TIMER_INDEX}: 计时器选择，目前可选1或者2
         {TIME_UNITS}: 时间单位选择，目前可选ms或者us
         {PERIOD}: 时间周期
-        {DUTY_CYCLE_A}: PWM输出1的占空比
-        {DUTY_CYCLE_B}: PWM输出2的占空比
-        {DUTY_CYCLE_C}: PWM输出3的占空比
-        {DURATION_IN_10MS}: 该pwm输出的时间(单位是10ms)，如果输入-1，则pin脚会持续输出PWM方波。
+        {DUTY_CYCLE_A}: PWM输出1的脉宽
+        {DUTY_CYCLE_B}: PWM输出2的脉宽
+        {DUTY_CYCLE_C}: PWM输出3的脉宽
+        {DURATION_IN_10MS}: 该pwm输出的时间(单位是10ms)，如果输入负数如-1，则pin脚会持续输出PWM方波。
 
-        以下的例子使用定时器0, 输出的周期为20ms，三个输出pin脚分别输出占空比为20%，40%和80%的方波，PWM输出持续1秒：
-        ["pwm", 0, "enabled", "ms", 20, 20, 40, 80, 100]
+        以下的例子使用定时器0, 输出的周期为20ms，三个输出pin脚分别输出脉宽为8, 12, 15ms的方波，PWM输出持续1秒：
+        ["pwm", 0, "enabled", "ms", 20, 8, 12, 15, 100]
 
 
   * ACTION 返回格式：
