@@ -65,7 +65,7 @@ PWM可以在指定Pin脚输出特定频率和周期的方波，可以用来驱�
 
         ["pwm", {TIMER_INDEX}, "enabled", {TIME_UNITS}, {PERIOD}, {DUTY_CYCLE_A}, {DUTY_CYCLE_B}, {DUTY_CYCLE_C}, {DURATION_IN_10MS}]
         说明：
-        {TIMER_INDEX}: 计时器选择，目前可选1或者2
+        {TIMER_INDEX}: 计时器选择，目前可选0或者1
         {TIME_UNITS}: 时间单位选择，目前可选ms或者us
         {PERIOD}: 时间周期
         {DUTY_CYCLE_A}: PWM输出1的脉宽
