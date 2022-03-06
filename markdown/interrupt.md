@@ -11,14 +11,14 @@
 }
 
 说明：
-1. pin目前支持如下4个pin: PK4 / PK5 / PK6 / PK7
+1. pin目前支持如下4个pin: 26 / 27 / 28 / 29
 2. trigger支持：change/rising/falling
 
-比如如下请求在PK4上升沿时，反转PH5的电压:
+比如如下请求在26上升沿时，反转pin 10的电压:
 {
   "event": "pinstate",
-  "pin": "PK4",
+  "pin": "26",
   "trigger": "rising",
-  "actions": [["gpio","PH5","output",2]]
+  "actions": [["gpio",10,"output",2]]
 }
 ```
