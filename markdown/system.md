@@ -28,8 +28,9 @@
 
 
 ## 引脚分布图
-下图表示了开发板的所有引脚信息：
-
+下图展示了开发板的引脚信息：
+<br>
+<img style="max-width: 600px; height: auto; " src="img/RUIKECHUANGXIN_pinout.png"/>
 
 
 

@@ -36,7 +36,7 @@ function loadContent(param) {
 (function() {
   // get all elements with class 'more'
   let expandableElem = document.querySelectorAll('.list-more');
-  
+
   // loop through each expandable element, adding click listener
   expandableElem.forEach(li => {
     li.addEventListener(
