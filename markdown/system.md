@@ -1,7 +1,12 @@
 # 系统
+## 引脚分布图
+下图展示了硬件平台的引脚信息：
+<br>
+<img style="max-width: 600px; height: auto; " src="img/RUIKECHUANGXIN_pinout.png"/>
+
 ## 软硬件架构
 
-### 硬件
+### 硬件架构
 
 硬件平台主要包括一枚8-bit MCU；存储包括板上512KB的SRAM和SD卡；通信提供100mbps的以太网以及USB Type C供电。
 
@@ -15,18 +20,10 @@
 <br>
 <img style="max-width: 800px; height: auto; " src="img/RectCreamHardwareStructure.png"/>
 
-### 软件
+### 软件架构
 
 软件系统包括对各种硬件模块的驱动，操作指令的解析，文件系统和HTTP静态服务器等。
 
 下图表示了目前软件系统的基本架构：
 <br>
 <img style="max-width: 800px; height: auto; " src="img/RectCreamSoftwareStructure.png"/>
-
-## 引脚分布图
-下图展示了硬件平台的引脚信息：
-<br>
-<img style="max-width: 600px; height: auto; " src="img/RUIKECHUANGXIN_pinout.png"/>
-
-
-
