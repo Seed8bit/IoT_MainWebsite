@@ -14,7 +14,7 @@
 
 <ul>
 <li>event: 事件类型，可以为"now","schedule"或"pinstate”。</li>
-<li>actions: 硬件操作，该键对应的值为数组，即可以将多个硬件操作组合在一起。</li>
+<li>actions: 硬件操作，该键对应的值为数组，数组里可包含多个硬件操作，而每个硬件操作为一个单独的数组。</li>
 </ul>
 
 <blockquote>

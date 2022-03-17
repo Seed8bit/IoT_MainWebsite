@@ -249,9 +249,9 @@ curl --location --request POST '192.168.1.107/hardware/operation' \
 {"event":"now","result":[[1]]}
 ```
 
-<quoteblock>
+<blockquote>
 后面的文档会对每一种硬件操作命令进行详细的说明。
-</quoteblock>
+</blockquote>
 
 # SD卡与系统交互
 <p>除了通过串口连接线和以太网，用户还可以通过SD卡和系统进行交互。</p>
