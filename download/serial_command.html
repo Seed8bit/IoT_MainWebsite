@@ -1,0 +1,150 @@
+
+用户需要发送对应的串口指令，每个串口指令最后需要有回车符(\r)结束命令。
+
+#### 获得当前版本信息:
+<p>命令：<b>VERSION</b></p>
+<p>返回：字符串表示版本信息</p>
+<p>示例：
+<blockquote>
+<p>$ echo "VERSION" | socat - /dev/ttyUSB0</p>
+<p>Ver: 1.0</p>
+</blockquote>
+</p>
+
+#### 配置输出电压
+<p>读取电压命令：<b>VOLTAGE GET</b></p>
+<p>返回：当前系统设置的输出电压</p>
+<p>示例：
+<blockquote>
+<p>$ echo "VOLTAGE GET" | socat - /dev/ttyUSB0</p>
+<p>5</p>
+</blockquote>
+</p>
+
+<p>写入电压命令：<b>VOLTAGE SET {电压值}</b></p>
+<p>参数：{电压值}，可选择5/9/15/20之一</p>
+<p>返回：无返回值</p>
+<p>示例：
+<blockquote>
+<p>$ echo "VOLTAGE SET 15" | socat - /dev/ttyUSB0</p>
+</blockquote>
+</p>
+
+<blockquote>
+说明：为了让硬件平台能够提供不同的输出电压，用户需要确保硬件平台的电源支持USB Type Power Delivery (即100W功率)
+</blockquote>
+
+#### 时间设置
+<p>读取系统时间命令：<b>TIME GET</b></p>
+<p>如果系统已经设置时间，返回：当前系统的时间，格式：年/月/日 时:分:秒。如果系统未设置时间，返回：NOT SET</p>
+<p>示例：
+<blockquote>
+<p>$ echo "TIME GET" | socat - /dev/ttyUSB0</p>
+<p>21/05/01 13:15:20</p>
+</blockquote>
+</p>
+
+<p>写入系统时间命令：<b>TIME SET {年} {月} {日} {时} {分} {秒}</b></p>
+<p>参数：{年}，基准值为2000年，即如果想设置为2015年，该参数为15</p>
+<p>参数：{月}，1-12之一</p>
+<p>参数：{日}，1-31，请注意如果时间无效，将不会被设置</p>
+<p>参数：{时}，0-23之一</p>
+<p>参数：{分}，0-59之一</p>
+<p>参数：{秒}，0-59之一</p>
+<p>返回：无返回值</p>
+<p>示例：
+<blockquote>
+<p>$ echo "TIME SET 21 5 1 13 15 0" | socat - /dev/ttyUSB0</p>
+<p>将系统时间设置为2021年5月1号，13点15分0秒
+</blockquote>
+</p>
+
+<blockquote>
+说明：如果用户希望在系统断电后时间模块依然可以正常记录时间，请将CR1225纽扣电池插入硬件平台的电池槽。
+</blockquote>
+
+#### MDNS设置
+用户可以设置不同的MDNS名称，设置完成后。用户不需要通过IP地址访问硬件平台，可直接根据MDNS名称访问平台，比如用户设置MDNS名称为"platform"，则可通过"www.platform.local"即可访问硬件平台。
+<p>读取MDNS命令：<b>MDNS GET</b></p>
+<p>如果系统已经MDNS名称，返回：当前MDNS名称。如果系统未设置，返回：NOT SET</p>
+<p>示例：
+<blockquote>
+<p>$ echo "MDNS GET" | socat - /dev/ttyUSB0</p>
+<p>rectcream</p>
+</blockquote>
+</p>
+
+<p>写入MDNS命令：<b>MDNS SET {名称}</b></p>
+<p>参数：{名称}，不超过64个字符</p>
+<p>返回：无返回值</p>
+<p>示例：
+<blockquote>
+<p>$ echo "MDNS SET rectcream" | socat - /dev/ttyUSB0</p>
+<p>设置MDNS名称为"rectcream"</p>
+</blockquote>
+</p>
+
+#### 网络参数设置
+用户可以自定义硬件平台的网络参数，即IP地址，子网掩码和网管地址。如果用户未设置网络参数，或网络参数无效，硬件平台默认使用DHCP，即从当前网络中自动获取网络参数。
+
+<p>读取当前IP地址：<b>IP GET</b></p>
+<p>返回：第一行为系统设置的IP地址，第二行为当前系统的IP地址</p>
+<p>示例：
+<blockquote>
+<p>实例中，系统设置的IP地址为192.168.1.254，当前系统的IP地址为192.168.1.10</p>
+<p>$ echo "IP GET" | socat - /dev/ttyUSB0</p>
+<p>192 168 1 254</p>
+<p>192 168 1 10</p>
+</blockquote>
+</p>
+
+<p>写入当前IP地址：<b>IP SET</b></p>
+<p>返回：无返回值</p>
+<p>示例：
+<blockquote>
+<p>$ echo "IP SET 192.168.1.254" | socat - /dev/ttyUSB0</p>
+</blockquote>
+</p>
+
+<p>读取当前子网掩码地址：<b>NETMASK GET</b></p>
+<p>返回：第一行为系统设置的子网掩码地址，第二行为当前系统的子网掩码地址</p>
+<p>示例：
+<blockquote>
+<p>实例中，系统设置的子网掩码地址为255.255.255.0，当前系统的子网掩码地址为255.255.255.0</p>
+<p>$ echo "NETMASK GET" | socat - /dev/ttyUSB0</p>
+<p>255 255 255 0</p>
+<p>255 255 255 0</p>
+</blockquote>
+</p>
+
+<p>写入子网掩码地址：<b>NETMASK SET</b></p>
+<p>返回：无返回值</p>
+<p>示例：
+<blockquote>
+<p>$ echo "NETMASK SET 255.255.255.0" | socat - /dev/ttyUSB0</p>
+</blockquote>
+</p>
+
+<p>读取当前网关地址：<b>GATEWAY GET</b></p>
+<p>返回：第一行为系统设置的网关地址，第二行为当前系统的网关地址</p>
+<p>示例：
+<blockquote>
+<p>实例中，系统设置的网关地址为192.168.1.101，当前系统的网关地址为192.168.1.1</p>
+<p>$ echo "GATEWAY GET" | socat - /dev/ttyUSB0</p>
+<p>192 168 1 101</p>
+<p>192 168 1 1</p>
+</blockquote>
+</p>
+
+<p>写入网关地址：<b>GATEWAY SET</b></p>
+<p>返回：无返回值</p>
+<p>示例：
+<blockquote>
+<p>$ echo "GATEWAY SET 192.168.1.101" | socat - /dev/ttyUSB0</p>
+</blockquote>
+</p>
+
+#### 恢复出厂设置
+该命令用于将系统恢复为默认出厂设置
+<p>命令:<b>FACTORY</b></p>
+<p>返回：无返回值</p>

@@ -1,186 +1,11 @@
-# 系统交互
-用户有三种方式可以与系统进行交互:
-<ol>
-  <li>通过串口对系统进行配置或读取系统信息。</li>
-  <li>连接以太网，通过以太网发送请求进行硬件操作，或访问预存在SD卡中的网站。</li>
-  <li>通过SD卡和系统交互，当系统启动时，会读取预存在SD卡中的硬件操作文件。</li>
-</ol>
-
-## 通过串口对系统进行配置
-硬件平台的配置需要通过串口连接，用户需要5V的USB-TTL串口连接线。
-<blockquote>
-USB-TTL串口连接线有多种电压选择，对于该硬件平台，用户请选择5V的电压，其他电压可能会无法和硬件平台通信。
-</blockquote>
-
-用户需要将串口线的USB一端连接到PC，另串口端连接到硬件平台，示意图如下：
-<blockquote>
-串口的TX端和平台的RX连接，串口的RX端和平台的TX连接。
-</blockquote>
+# 运行框图
+<img style="max-width: 750px; height: auto; " src="img/Structure.png"/>
 <br>
-<img style="max-width: 800px; height: auto; " src="img/RectCreamSerialConnection.png"/>
 
-当串口连接好后，用户即可通过串口和硬件平台交互，串口的波特率设置为9600，八个数据位，无奇偶校验，一个停止位。
+<p>上图描述了锐客创新物联网开发板的典型应用，即从以太网或SD卡输入指令，根据指令条件的不同，开发板在满足条件时会发送硬件操作命令给执行器，比如开启电机转动。当执行器完成任务后，开发板发送硬件操作命令给传感器，收集传感器的数据。最后返回结果。</p>
 
-<blockquote>
-<p>Linux用户: 可使用<a href="https://www.runoob.com/linux/linux-comm-screen.html">screen命令</a>，<a href="https://www.jianshu.com/p/54005e3095f3">socat命令</a>等。</p>
-<p>
-比如，<b>echo "VERSION" | socat - /dev/ttyUSB0,crnl</b> 即使用socat命令从usb设备/dev/ttyUSB0读取硬件平台版本信息。
-</p>
-<p>Windows用户: 需下载串口调试软件，如<a href="https://dl.pconline.com.cn/download/2335414.html">串口调试助手</a>。</p>
-</blockquote>
-
-用户需要发送对应的串口指令，每个串口指令最后需要有回车符(\r)结束命令。
-
-#### 获得当前版本信息:
-<p>命令：<b>VERSION</b></p>
-<p>返回：字符串表示版本信息</p>
-<p>示例：
-<blockquote>
-<p>$ echo "VERSION" | socat - /dev/ttyUSB0</p>
-<p>Ver: 1.0</p>
-</blockquote>
-</p>
-
-#### 配置输出电压
-<p>读取电压命令：<b>VOLTAGE GET</b></p>
-<p>返回：当前系统设置的输出电压</p>
-<p>示例：
-<blockquote>
-<p>$ echo "VOLTAGE GET" | socat - /dev/ttyUSB0</p>
-<p>5</p>
-</blockquote>
-</p>
-
-<p>写入电压命令：<b>VOLTAGE SET {电压值}</b></p>
-<p>参数：{电压值}，可选择5/9/15/20之一</p>
-<p>返回：无返回值</p>
-<p>示例：
-<blockquote>
-<p>$ echo "VOLTAGE SET 15" | socat - /dev/ttyUSB0</p>
-</blockquote>
-</p>
-
-<blockquote>
-说明：为了让硬件平台能够提供不同的输出电压，用户需要确保硬件平台的电源支持USB Type Power Delivery (即100W功率)
-</blockquote>
-
-#### 时间设置
-<p>读取系统时间命令：<b>TIME GET</b></p>
-<p>如果系统已经设置时间，返回：当前系统的时间，格式：年/月/日 时:分:秒。如果系统未设置时间，返回：NOT SET</p>
-<p>示例：
-<blockquote>
-<p>$ echo "TIME GET" | socat - /dev/ttyUSB0</p>
-<p>21/05/01 13:15:20</p>
-</blockquote>
-</p>
-
-<p>写入系统时间命令：<b>TIME SET {年} {月} {日} {时} {分} {秒}</b></p>
-<p>参数：{年}，基准值为2000年，即如果想设置为2015年，该参数为15</p>
-<p>参数：{月}，1-12之一</p>
-<p>参数：{日}，1-31，请注意如果时间无效，将不会被设置</p>
-<p>参数：{时}，0-23之一</p>
-<p>参数：{分}，0-59之一</p>
-<p>参数：{秒}，0-59之一</p>
-<p>返回：无返回值</p>
-<p>示例：
-<blockquote>
-<p>$ echo "TIME SET 21 5 1 13 15 0" | socat - /dev/ttyUSB0</p>
-<p>将系统时间设置为2021年5月1号，13点15分0秒
-</blockquote>
-</p>
-
-<blockquote>
-说明：如果用户希望在系统断电后时间模块依然可以正常记录时间，请将CR1225纽扣电池插入硬件平台的电池槽。
-</blockquote>
-
-#### MDNS设置
-用户可以设置不同的MDNS名称，设置完成后。用户不需要通过IP地址访问硬件平台，可直接根据MDNS名称访问平台，比如用户设置MDNS名称为"platform"，则可通过"www.platform.local"即可访问硬件平台。
-<p>读取MDNS命令：<b>MDNS GET</b></p>
-<p>如果系统已经MDNS名称，返回：当前MDNS名称。如果系统未设置，返回：NOT SET</p>
-<p>示例：
-<blockquote>
-<p>$ echo "MDNS GET" | socat - /dev/ttyUSB0</p>
-<p>rectcream</p>
-</blockquote>
-</p>
-
-<p>写入MDNS命令：<b>MDNS SET {名称}</b></p>
-<p>参数：{名称}，不超过64个字符</p>
-<p>返回：无返回值</p>
-<p>示例：
-<blockquote>
-<p>$ echo "MDNS SET rectcream" | socat - /dev/ttyUSB0</p>
-<p>设置MDNS名称为"rectcream"</p>
-</blockquote>
-</p>
-
-#### 网络参数设置
-用户可以自定义硬件平台的网络参数，即IP地址，子网掩码和网管地址。如果用户未设置网络参数，或网络参数无效，硬件平台默认使用DHCP，即从当前网络中自动获取网络参数。
-
-<p>读取当前IP地址：<b>IP GET</b></p>
-<p>返回：第一行为系统设置的IP地址，第二行为当前系统的IP地址</p>
-<p>示例：
-<blockquote>
-<p>实例中，系统设置的IP地址为192.168.1.254，当前系统的IP地址为192.168.1.10</p>
-<p>$ echo "IP GET" | socat - /dev/ttyUSB0</p>
-<p>192 168 1 254</p>
-<p>192 168 1 10</p>
-</blockquote>
-</p>
-
-<p>写入当前IP地址：<b>IP SET</b></p>
-<p>返回：无返回值</p>
-<p>示例：
-<blockquote>
-<p>$ echo "IP SET 192.168.1.254" | socat - /dev/ttyUSB0</p>
-</blockquote>
-</p>
-
-<p>读取当前子网掩码地址：<b>NETMASK GET</b></p>
-<p>返回：第一行为系统设置的子网掩码地址，第二行为当前系统的子网掩码地址</p>
-<p>示例：
-<blockquote>
-<p>实例中，系统设置的子网掩码地址为255.255.255.0，当前系统的子网掩码地址为255.255.255.0</p>
-<p>$ echo "NETMASK GET" | socat - /dev/ttyUSB0</p>
-<p>255 255 255 0</p>
-<p>255 255 255 0</p>
-</blockquote>
-</p>
-
-<p>写入子网掩码地址：<b>NETMASK SET</b></p>
-<p>返回：无返回值</p>
-<p>示例：
-<blockquote>
-<p>$ echo "NETMASK SET 255.255.255.0" | socat - /dev/ttyUSB0</p>
-</blockquote>
-</p>
-
-<p>读取当前网关地址：<b>GATEWAY GET</b></p>
-<p>返回：第一行为系统设置的网关地址，第二行为当前系统的网关地址</p>
-<p>示例：
-<blockquote>
-<p>实例中，系统设置的网关地址为192.168.1.101，当前系统的网关地址为192.168.1.1</p>
-<p>$ echo "GATEWAY GET" | socat - /dev/ttyUSB0</p>
-<p>192 168 1 101</p>
-<p>192 168 1 1</p>
-</blockquote>
-</p>
-
-<p>写入网关地址：<b>GATEWAY SET</b></p>
-<p>返回：无返回值</p>
-<p>示例：
-<blockquote>
-<p>$ echo "GATEWAY SET 192.168.1.101" | socat - /dev/ttyUSB0</p>
-</blockquote>
-</p>
-
-#### 恢复出厂设置
-该命令用于将系统恢复为默认出厂设置
-<p>命令:<b>FACTORY</b></p>
-<p>返回：无返回值</p>
-
-## 以太网与系统交互
-### 连接
+# 通过以太网与系统交互
+## 连接
 用户可以根据使用场景将平台接入网络，以下是推荐的两种连接方式：
 <ol>
 <li>
@@ -199,11 +24,11 @@ USB-TTL串口连接线有多种电压选择，对于该硬件平台，用户请�
 对于计算机和硬件平台直接连接的情况，目前大多数以太网接口可以识别出Tx和Rx，因此不需要使用交叉网线即可实现通信。
 </blockquote>
 
-### 通信
+## 通信
 <p>当硬件平台接入网络后，用户即可以和平台进行通信。客户端通过HTTP请求可以实现和硬件平台的交互，支持以下两种HTTP请求</p>
 <ol>
-<li>静态网站：用户可将前端页面存在SD卡上的<b>public</b>文件夹。当通过浏览器访问硬件平台时，平台会自动加载<b>pulibc</b>文件夹中的<b>index.html</b>文件，继而可以向用户展示前端页面。</li>
-<li>硬件操作命令：用户还可发送HTTP的POST请求到硬件平台，根据请求内容的不同，硬件平台可以进行相应的硬件操作，比如GPIO的设置，ADC采样等。POST请求需要发送到URI为<b>/hardware/operation</b>。请求的内容必须为JSON格式。下面的例子通过<b>curl命令</b>展示了如果进行硬件操作。</li>
+<li>静态网站：用户可将前端页面存在SD卡上的<b>public</b>文件夹。当通过浏览器访问硬件平台时，平台会自动加载<b>public</b>文件夹中的<b>index.html</b>文件，继而可以向用户展示前端页面。</li>
+<li>硬件操作命令：用户还可发送HTTP的POST请求到硬件平台，根据请求内容的不同，硬件平台可以进行相应的硬件操作，比如GPIO的设置，ADC采样等。POST请求需要发送到URI为<b>/hardware/operation</b>。请求的内容必须为JSON格式。</li>
 </ol>
 
 <blockquote>
@@ -219,12 +44,13 @@ USB-TTL串口连接线有多种电压选择，对于该硬件平台，用户请�
 </blockquote>
 
 <p>硬件平台的IP地址设置为192.168.1.107，使用以下的ping命令和硬件平台通信，确保网络链路通畅</p>
-```
+
+<pre>
 $ ping 192.168.1.107
 PING 192.168.1.107 (192.168.1.107) 56(84) bytes of data.
 64 bytes from 192.168.1.107: icmp_seq=1 ttl=128 time=0.415 ms
 64 bytes from 192.168.1.107: icmp_seq=2 ttl=128 time=0.490 ms
-```
+</pre>
 
 <p>以下的curl命令用来模拟浏览器访问硬件平台，平台会将<b>index.html</b>返回给浏览器</p>
 
@@ -235,7 +61,7 @@ curl --location --request GET '192.168.1.107'
 index.html的内容
 ```
 
-<p>以下的curl命令发送一条GPIO硬件操作语言，硬件平台将pin0设置为输出高电平。</p>
+<p>以下的curl命令发送一条GPIO硬件操作语言，硬件平台将引脚0设置为<b>输出高电平</b>。</p>
 
 ```
 curl --location --request POST '192.168.1.107/hardware/operation' \
@@ -249,18 +75,14 @@ curl --location --request POST '192.168.1.107/hardware/operation' \
 {"event":"now","result":[[1]]}
 ```
 
-<blockquote>
-后面的文档会对每一种硬件操作命令进行详细的说明。
-</blockquote>
-
 # SD卡与系统交互
 <p>除了通过串口连接线和以太网，用户还可以通过SD卡和系统进行交互。</p>
-<p>之前有提到用户可以将前端页面存在<b>public</b>文件夹中，当用户通过浏览器或HTTP请求访问平台时，平台可将前端页面返回给浏览器。除此之外，用户还可将系统配置文件，硬件操作文件存在SD卡上，这些文件同样可以改变硬件平台的行为。</p>
+<p>用户可将系统配置文件，硬件操作文件存在SD卡上，这些文件同样可以改变硬件平台的行为。</p>
 <blockquote>
 这里需要说明的是，SD卡目前只支持FAT32文件系统，且块的大小为固定的512字节。
 </blockquote>
 
-<p>下面我们对SD上的文件夹统进行说明：</p>
+<p>下面对SD上的文件夹进行说明：</p>
 <ol>
 <li>public：该文件夹保存所有的静态网站相关的文件，包括HTML, CSS, JS等，当用户使用浏览器访问该系统时，系统会将静态文件返回给浏览器，浏览器进而可以显示页面。</li>
 <li>user：该文件夹保存所有用户的文件，比如用户通过HTTP请求在SD上保存一个文件，该文件会被保存到该文件夹。除此之外，该文件夹还保存系统的初始化硬件命令文件<b>boot.json</b></li>
@@ -285,17 +107,186 @@ curl --location --request POST '192.168.1.107/hardware/operation' \
 更多的硬件操作命令，请参考后面的内容。
 </blockquote>
 
-## config.json文件
-<p>config.json保存在<b>system</b>文件夹中，实现的功能和通过串口实现的功能一样。当系统上电后，首先会加载通过串口配置的系统信息，然后如果该文件存在，会继而加载该文件，该文件的内容会覆盖之前通过串口配置的信息。当该文件处理完成后，最后便生成系统真正的配置信息，并发送给相应的硬件模块进行配置。</p>
+# 硬件操作，事件处理和结果返回
 
-<p>以下例子为config.json的内容，可以将硬件平台的IP地址设置为192.168.1.101，子网掩码设置为255.255.255.0，网关地址设置为192.168.1.1，mdns名称设置为rectcream，输出电压设置为15V。</p>
+<p>下图是对发送到硬件平台的数据包的简单说明：</p>
+<br>
+<img style="max-width: 350px; height: auto; " src="img/HttpRequest.png"/>
+<br>
+
+## 硬件操作
+<p>物联网平台支持对GPIO，ADC，SPI，I2C，UART，PWM，时间模块，文件系统的硬件操作。</p>
+<p>硬件操作保存在JSON格式中，用户通过HTTP的POST请求发送给平台，或通过保存在user/boot.json文件中。</p>
+
+<p>以下是一个例子：</p>
+
+<pre>
+{
+  "event":"now",
+  "actions": [["gpio",0, "output", 1]]
+}
+</pre>
+
+<p>可以注意到，上面的例子中的JSON对象有两个键，一个是"event"，一个是"actions"。</p>
+
+<ul>
+<li>event: 事件类型，可以为"now","schedule"或"pinstate"。下面有详细的说明。</li>
+<li>actions: 硬件操作，该键对应的值为数组，数组里可包含多个硬件操作，而每个硬件操作写在一个单独的数组中。</li>
+</ul>
+
+<a href="download/hardware_operation.html" download="锐客创新硬件操作命令集_V1.pdf">下载：【硬件操作命令集】</a>
+
+## 事件处理
+<p>硬件平台的事件处理机制帮助用户选择在特定条件下触发硬件操作。</p>
+<ul>
+<li>当事件类型为"now"时，平台接受到请求时会立即执行里面的硬件命令。</li>
+<li>当事件类型为"schedule"时，平台接受到请求时会根据里面的信息在合适的时间触发硬件命令。</li>
+<li>当事件类型为"pinstate"时，平台接受到请求时会配置相应的管脚，只有当管教电平满足条件时，才会出发硬件命令。</li>
+</ul>
+
+##### now事件：
+<p>该事件会即刻发送，发送包里的硬件操作会即可进行执行。格式如下：</p>
+
+<pre>
+{
+  "event":"now",
+  "actions": [["硬件操作_1"], ["硬件操作_2"], ...]
+}
+
+//比如以下请求将管脚0的电压进行反转：
+{
+  "event":"now",
+  "actions": [["gpio", 0, "output", 2]]
+}
+
+//比如如下请求读取管脚0和1的电压状态，然后再读取ADC0的采样：
+{
+  "event":"now",
+  "actions": [["gpio", 0, "input", 0], ["gpio", 1, "input", 0], ["adc", 0, "5v"]]
+}
+</pre>
+
+##### schedule事件
+<p>该事件定义事件发生时间要求，当系统检测到满足时间要求时，硬件事件会被自动触发</p>
+
+<pre>
+{
+  "event":"schedule",
+  "interval":"重复间隔"(必填)
+  "start":"起始时间" (可选)
+  "end":"结束时间" (可选)
+  "actions": [["硬件操作_1"], ["硬件操作_2"], ...]
+}
+
+说明：
+1. "重复间隔": 该参数为必填参数。必须有时间单位量，目前支持：'s'(秒), 'm'(分钟), 'h'(小时) 和 'd'(天)
+2. "起始时间": 该参数为选填参数。必须满足日期时间格式: "YYYY/MM/DD HH:MM:SS" (比如: "2020/11/28 15:30:0")
+3. "结束时间": 该参数为选填参数。必须满足日期时间格式: "YYYY/MM/DD HH:MM:SS" (比如: "2020/11/29 0:10:0")
+
+比如如下请求将管脚0的电压进行反转，而且每5秒钟反转一次，从2020/1/1 的下午两点进行到下午四点。
+{
+  "event":"schedule",
+  "interval":"5s",
+  "start":"2020/1/1 14:00:00",
+  "end":"2020/1/1 16:00:00",
+  "actions": [["gpio", 0, "output",2]]
+}
+</pre>
+
+<blockquote>
+<p>如果用户没有指定起始时间和结束时间，硬件操作会立即以间隔被不停地触发。</p>
+<p>如果用户只指定了起始时间，硬件操作会在起始时间后以间隔被不停地触发。</p>
+<p>如果用户只制定了结束时间，则硬件操作会立即以间隔被不停地触发直到结束时间。</p>
+</blockquote>
+
+##### pinstate事件
+<p>该事件定义当指定引脚的电压发生改变时，则硬件操作会被触发。</p>
+<p>改变包括上升沿，下降沿或任何电压改变。格式如下：</p>
+
+<pre>
+{
+  "event": "pinstate",
+  "pin": "管脚名称", (必填)
+  "trigger": "触发条件", (必填)
+  "actions": [["硬件操作_1"], ["硬件操作_2"], ...]
+}
+
+说明：
+1. pin目前支持: 26 / 27 / 28 / 29
+2. trigger支持：change/rising/falling，change即在管脚发生电压改变时触发，rising即在管脚上升沿触发，falling即在管脚下降沿触发。
+
+比如如下请求在26上升沿时，反转管脚10的电压:
+{
+  "event": "pinstate",
+  "pin": "26",
+  "trigger": "rising",
+  "actions": [["gpio",10,"output",2]]
+}
+</pre>
+
+## 结果返回
+
+<p>用户可以提供返回信息，当硬件操作结束后，所有的返回值会发送给指定的目的地。</p>
+<p>在JSON请求中加入<b>return</b>键来指定某个特定返回地址</p>
+<p>目前支持如下三种返回类型：</p>
+
+### tcp
+<p>指定一个IP地址，当硬件操作结束后，结果会通过TCP发送到该IP地址</p>
 
 ```
 {
-  "ip": "192.168.1.101",
-  "netmask": "255.255.255.0",
-  "gateway": "192.168.1.1",
-  "mdns": "rectcream",
-  "voltage": "15v"
+  ...
+  "return": ["tcp", "IP地址:端口号"]
+}
+
+比如，下面的例子是一个now事件，当引脚0的电压翻转后，结果不但会返回给发送方，还会通过tcp的方式发送给IP地址192.168.1.110，端口5050：
+{
+  "event":"now",
+  "actions": [["gpio", 0, "output", 2]]
+  "return": ["tcp", "192.168.1.110:5050"]
+}
+
+```
+
+
+### udp
+<p>指定一个IP地址，当硬件操作结束后，结果会通过UDP发送到该IP地址</p>
+
+```
+{
+  ...
+  "return": ["udp", "IP地址:端口号"]
+}
+
+比如，下面的例子是一个schedule事件，每5秒会进行一个ADC采样，每次采样结束后，结果会通过udp的方式发送给IP地址192.168.1.110，端口8001：
+{
+  "event":"schedule",
+  "interval": "5s",
+  "actions": [["adc", 0, "5v"]]
+  "return": ["udp", "192.168.1.110:8001"]
+}
+```
+
+### 文件
+<p>指定一个文件名，当硬件操作结束后，结果会保存到该文件中。</p>
+
+<blockquote>
+该文件会默认保存到user文件夹中。
+</blockquote>
+
+```
+{
+  ...
+  "return": ["file", "文件名"]
+}
+
+比如，下面的例子是一个schedule事件，每5秒会进行一个ADC采样，每次采样结束后，结果会保存到adc_sample.txt文件中。
+用户可读取SD卡，访问/user/adc_sample.txt来获得采样结果：
+
+{
+  "event":"schedule",
+  "interval": "5s",
+  "actions": [["adc", 0, "5v"]]
+  "return": ["file", "adc_sample.txt"]
 }
 ```

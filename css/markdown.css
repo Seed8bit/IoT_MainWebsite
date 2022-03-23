@@ -796,6 +796,7 @@
 
 .markdown-body pre {
   word-wrap: normal;
+  max-width: 55em;
 }
 
 .markdown-body pre>code {
