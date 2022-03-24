@@ -134,7 +134,7 @@ curl --location --request POST '192.168.1.107/hardware/operation' \
 <li>actions: 硬件操作，该键对应的值为数组，数组里可包含多个硬件操作，而每个硬件操作写在一个单独的数组中。</li>
 </ul>
 
-<a href="download/hardware_operation.html" download="锐客创新硬件操作命令集_V1.pdf">下载：【硬件操作命令集】</a>
+<a href="download/锐客创新硬件操作命令.pdf" download="锐客创新硬件操作命令.pdf">下载：【硬件操作命令集】</a>
 
 ## 事件处理
 <p>硬件平台的事件处理机制帮助用户选择在特定条件下触发硬件操作。</p>
@@ -230,7 +230,7 @@ curl --location --request POST '192.168.1.107/hardware/operation' \
 <p>在JSON请求中加入<b>return</b>键来指定某个特定返回地址</p>
 <p>目前支持如下三种返回类型：</p>
 
-### tcp
+##### tcp
 <p>指定一个IP地址，当硬件操作结束后，结果会通过TCP发送到该IP地址</p>
 
 ```
@@ -249,7 +249,7 @@ curl --location --request POST '192.168.1.107/hardware/operation' \
 ```
 
 
-### udp
+##### udp
 <p>指定一个IP地址，当硬件操作结束后，结果会通过UDP发送到该IP地址</p>
 
 ```
@@ -267,7 +267,7 @@ curl --location --request POST '192.168.1.107/hardware/operation' \
 }
 ```
 
-### 文件
+##### 文件
 <p>指定一个文件名，当硬件操作结束后，结果会保存到该文件中。</p>
 
 <blockquote>

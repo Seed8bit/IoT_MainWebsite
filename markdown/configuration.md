@@ -32,7 +32,7 @@ USB-TTL串口连接线有多种电压选择，对于该硬件平台，请选择5
 <p>Windows用户: 需下载串口调试软件，如<a href="https://dl.pconline.com.cn/download/2335414.html">串口调试助手</a>。</p>
 </blockquote>
 
-<a href="download/serial_command.html" download="锐客创新配置命令集_V1.pdf">下载：【配置命令集】</a>
+<a href="download/锐客创新系统配置命令.pdf" download="锐客创新系统配置命令.pdf">下载：【配置命令集】</a>
 
 
 # 通过SD卡对系统进行配置
