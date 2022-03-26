@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" media="screen and (max-width: 768px)" href="css/mobile.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.js" integrity="sha512-bvV1V1YSjP1fbfKJjTlNmdnUO2XpsLYUdKwmz5UXBi5U+x40rx9JpA0ooQUMZfpz1MaaBC0ydNLoC6r0sitPUQ==" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" media="screen and (max-width: 768px)" href="/css/mobile.css">
+  <link rel="stylesheet" href="/css/markdown.css">
   <title>RECTCREAM锐客创新-演示</title>
 </head>
 <body>
@@ -13,27 +15,20 @@
     <div class="container">
       <h2>RECTCREAM-锐客创新</h2>
       <ul>
-        <li><a class="current" href="index.html">主页</a></li>
-        <li><a href="documents.html">文档</a></li>
-        <li><a href="demos.html">演示</a></li>
+        <li><a href="/index.html">主页</a></li>
+        <li><a href="/documents.html">文档</a></li>
+        <li><a class="current" href="/demos.html">演示</a></li>
         <!-- <li><a href="purchase.html">购买</a></li> -->
       </ul>
     </div>
   </nav>
 
-  <!-- Demos -->
-  <section id="demos-main" class="py-2">
-    <div class="container">
-      <h2>以下的项目都由锐客创新自定义物联网平台搭建完成</h2>
-      <div class="demos-container">
-        <article class="card">
-          <img src="img/webpage_piano.png" alt="">
-          <h3>
-            <a href="/demos/demo.html?demo=webpage_piano">网页钢琴</a>
-          </h3>
-          <p>物联网平台连接蜂鸣器并展示钢琴网站，用户可从网站选择不同按键发声。</p>
-        </article>
-      </div>
+  <!-- Content -->
+  <section id="demos-content">
+    <div class="demos-content-main">
+      <section class="content markdown-body">
+        <div data-markdown id="main-content"></div>
+      </section>
     </div>
   </section>
 
@@ -62,4 +57,7 @@
     </div>
   </footer>
 </body>
+
+<script type="text/javascript" src="/js/demosHelpers.js"></script>
+
 </html>

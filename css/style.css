@@ -328,3 +328,20 @@ li.open ul {display: block}
   grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
+
+/* Demos content */
+#demos-content {
+  background: #F2F7FA;
+}
+
+#demos-content .demos-content-main {
+  text-align: center;
+  padding: 30px 0 0 0;
+  font-size: 1.5rem;
+}
+
+#demos-content .demos-content-paragraph {
+  text-align: left;
+  margin-left: 10rem;
+  margin-right: 10rem;
+}
