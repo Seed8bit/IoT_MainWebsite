@@ -1,7 +1,7 @@
 <h1>网页钢琴</h1>
 <h3>演示视频</h3>
 <p>下面的视频展示了锐客创新物联网平台的一个简单应用-网页钢琴。</p>
-<p>每个不同的音阶有对应的频率。通过物联网平台向蜂鸣器发送特定频率的电信号，蜂鸣器即可发出给对应的音阶。</p>
+<p>每个不同的音阶有对应的频率。通过物联网平台向蜂鸣器发送特定频率的电信号，蜂鸣器即可发出对应的音阶。</p>
 <!-- https://www.bilibili.com/read/cv6775208 -->
 <iframe src="//player.bilibili.com/player.html?aid=382524557&bvid=BV1GZ4y1B79d&cid=559816490&page=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="550" height="400"> </iframe>
 
@@ -27,13 +27,13 @@
 </blockquote>
 <p>蜂鸣器的音量可由占空比控制，当蜂鸣片在原状态和其他状态停留的时间基本一样时，发出的音量最大。反之，如果原状态和其他状态停留的时间差别越大，那么发出的音量越小。反映到PWM的控制上，当我们把占空比设置为50%，音量最大; 反之占空比越小，音量越小。</p>
 <p>我们选择使用物联网平台的PWM1，通道A，平台和蜂鸣器的连接如下图：</p>
-<img src="/img/buzzer_connection.png" style="max-width: 800px; height:auto" alt="">
+<img src="/img/webpage_piano_demo/buzzer_connection.png" style="max-width: 800px; height:auto" alt="">
 </div>
 
 <h3>网站页面</h3>
 <div class="demos-content-paragraph">
 <p>用户可以将下方链接中的文件保存到SD卡中的<b>public</b>文件夹，当平台上电后，通过浏览器访问平台，即可使用网页钢琴。</p>
-<a href="/download/webpage_piano_index.html" download="index.html">下载：网页钢琴－网站页面</a>
+<a href="/download/webpage_piano_demo/webpage_piano_index.html" download="index.html">下载：网页钢琴－网站页面</a>
 <br><br>
 <p><b>index.html</b>里每个音符的定义在<b>tone_map</b>对象中，比如la的定义为2272us，即周期为2272微秒，初始的占空比为1500/2272=66%。用户可以通过音量键改变占空比。每次按键的发声时间为0.3秒。</p>
 <pre>
