@@ -8,6 +8,7 @@
 <p>当对着麦克风唱歌时，产生的声音使膜片振动，与膜片相连的线圈也跟着一起振动，线圈在磁场中切割磁感线，能产生随着声音变化而变化的电流，继而在输出端产生对应变化的电压。</p>
 <p>将麦克风的输出端和物联网平台的模数转换(ADC)接口连接，然后通过电脑端的Python脚本向平台发送硬件控制命令进行模数转换采样。随着采样的进行，平台将采样结果发送回电脑端。</p>
 <p>当收到所有的采样结果后，电脑端将结果保存成WAV文件，用户可播放该WAV文件并听到所采集的声音。并且电脑端通过Python的SciPy库，对收集到的声音进行傅立叶分析，可得到声音的频谱分析数据。</p>
+<p>麦克风基于MAX9814模块，请点击<a href="https://s.taobao.com/search?q=MAX9814&type=p&tmhkh5=&from=sea_1_searchbutton&catId=100&spm=a2141.241046-.searchbar.d_2_searchbox">该淘宝链接</a>购买麦克风模块，该模块大概15元左右。</p>
 </div>
 
 <img src="/img/adc_microphone/connections.png" style="max-width: 400px; height:auto" alt="">
