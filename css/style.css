@@ -345,3 +345,109 @@ li.open ul {display: block}
   margin-left: 10rem;
   margin-right: 10rem;
 }
+
+/* Contact */
+#contact-main {
+  background: #F3F3F3;
+}
+
+#contact-main .form-style {
+  max-width: 500px;
+  padding: 20px 12px 10px 20px;
+  font: 13px Arial, Helvetica, sans-serif;
+}
+
+#contact-main .form-style-heading {
+  font-weight: bold;
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 20px;
+  font-size: 25px;
+  padding-bottom: 3px;
+}
+
+#contact-main .form-style label {
+  display: block;
+  margin: 10px 0px 15px 0px;
+  font-size: 15px;
+}
+#contact-main .form-style label > span {
+  width: 100px;
+  font-weight: bold;
+  float: left;
+  padding-top: 8px;
+  padding-right: 5px;
+}
+
+#contact-main .form-style .tel-number-field {
+  width: 40px;
+  text-align: center;
+}
+#contact-main .form-style input.input-field,
+#contact-main .form-style .select-field {
+  width: 48%;
+}
+#contact-main .form-style input.input-field,
+#contact-main .form-style .tel-number-field,
+#contact-main .form-style .textarea-field,
+#contact-main .form-style .select-field {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border: 1px solid #C2C2C2;
+  box-shadow: 1px 1px 4px #EBEBEB;
+  -moz-box-shadow: 1px 1px 4px #EBEBEB;
+  -webkit-box-shadow: 1px 1px 4px #EBEBEB;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  padding: 7px;
+  outline: none;
+}
+
+#contact-main .form-style .radio-select {
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#contact-main .form-style .radio-select > label {
+  margin-left: 20px;
+}
+
+#contact-main .form-style .input-field:focus,
+#contact-main .form-style .tel-number-field:focus,
+#contact-main .form-style .textarea-field:focus,
+#contact-main .form-style .select-field:focus {
+  border: 2px solid #343434;
+}
+
+#contact-main .form-style .textarea-field{
+  height:200px;
+  width: 70%;
+}
+
+#contact-main  .form-style input[type=submit],
+#contact-main  .form-style input[type=button] {
+  border: none;
+  padding: 8px 15px 8px 15px;
+  background: #026670;
+  color: #fff;
+  width: 150px;
+  box-shadow: 1px 1px 4px #DADADA;
+  -moz-box-shadow: 1px 1px 4px #DADADA;
+  -webkit-box-shadow: 1px 1px 4px #DADADA;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+}
+
+#contact-main .form-style input[type=submit]:hover,
+#contact-main .form-style input[type=button]:hover {
+  background: #a2b9bc;
+  color: #fff;
+}
+
+#contact-main .form-style textarea {
+  resize: both;
+}

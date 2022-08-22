@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" media="screen and (max-width: 768px)" href="css/mobile.css">
+  <title>RECTCREAM锐客创新-联系</title>
+</head>
+<body>
+  <!-- Header -->
+  <nav id="main-nav">
+    <div class="container">
+      <h2>RECTCREAM-锐客创新</h2>
+      <ul>
+        <li><a class="current" href="index.html">主页</a></li>
+        <li><a href="documents.html">文档</a></li>
+        <li><a href="demos.html">演示</a></li>
+        <li><a href="contact.html">联系</a></li>
+        <!-- <li><a href="purchase.html">购买</a></li> -->
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Demos -->
+  <section id="contact-main" class="py-2">
+    <div class="container form-style">
+        <form name="contact" method="POST" data-netlify="true">
+            <label>您的称呼：<input class="input-field" type="text" name="name" /></label>
+            <label>您的联系方式：<input class="input-field" ttype="text" name="contact-info" /></label>
+            <div id="contact-method" class="radio-select">
+                <label for="cellphone">电话 <input type="radio" name="contact-method" id="cellphone" value="cellphone"/></label>
+                <label for="wechat">微信 <input type="radio" name="contact-method" id="wechat" value="wechat"/></label>
+                <label for="qq">QQ <input type="radio" name="contact-method" id="qq" value="qq"/></label>
+                <label for="email">电子邮件 <input type="radio" name="contact-method" id="email" value="email"/></label>
+                <label for="other-contact-method">其他 <input type="radio" name="contact-method" id="other-contact-method" value="other-contact-method"/></label>
+            </div>
+            <label>请简要描述您的问题，建议或者意见：</label>
+            <textarea name="message" class="textarea-field"></textarea>
+            <br>
+            <input type="submit" value="提交"/>
+        </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="main-footer" class="py-2">
+    <div class="container footer-container">
+      <div>
+        <p>Copyright &copy; 2022, All Rights Reserved</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
