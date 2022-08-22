@@ -451,3 +451,14 @@ li.open ul {display: block}
 #contact-main .form-style textarea {
   resize: both;
 }
+
+#contact-confirmation {
+  background: #F3F3F3;
+  height: 100vh;
+}
+
+#contact-confirmation p {
+  font-size: 25px;
+  font: #3A3B3C;
+  font-style: italic;
+}
