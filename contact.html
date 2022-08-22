@@ -6,6 +6,11 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" media="screen and (max-width: 768px)" href="css/mobile.css">
   <title>RECTCREAM锐客创新-联系</title>
+  <script>
+    function formSubmitted(obj) {
+        alert("谢谢您提交反馈，我会第一时间回复您！");
+    }
+  </script>
 </head>
 <body>
   <!-- Header -->
@@ -25,7 +30,7 @@
   <!-- Demos -->
   <section id="contact-main" class="py-2">
     <div class="container form-style">
-        <form name="contact" method="POST" data-netlify="true">
+        <form name="contact" method="POST" data-netlify="true" action="javascript:;" onsubmit="formSubmitted(this)">
             <label>您的称呼：<input class="input-field" type="text" name="name" /></label>
             <label>您的联系方式：<input class="input-field" ttype="text" name="contact-info" /></label>
             <div id="contact-method" class="radio-select">
