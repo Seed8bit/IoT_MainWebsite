@@ -1,14 +1,14 @@
 <h1>LED灯带控制器</h1>
 <h3>演示视频</h3>
 <div class="demos-content-paragraph">
-<p>下面的视频展示了由物联网平台搭建的LED灯带控制器。灯带基于WS2811控制芯片，灯带中每个WS2811连接一个RGB LED。物联网平台根据WS2811的手册，将一共24位的红，绿，蓝(每个颜色各8位)信息发送给灯带中的控制器，控制器继而通过PWM波控制对应的颜色。后面会对WS2811和平台相关的控制进行详细地介绍。用户通过网页端控制灯带中LED亮的个数和颜色，还可以设置动态更新效果让LED灯带闪烁。</p>
+<p>下面的视频展示了由嵌入式平台搭建的LED灯带控制器。灯带基于WS2811控制芯片，灯带中每个WS2811连接一个RGB LED。嵌入式平台根据WS2811的手册，将一共24位的红，绿，蓝(每个颜色各8位)信息发送给灯带中的控制器，控制器继而通过PWM波控制对应的颜色。后面会对WS2811和平台相关的控制进行详细地介绍。用户通过网页端控制灯带中LED亮的个数和颜色，还可以设置动态更新效果让LED灯带闪烁。</p>
 </div>
 <iframe src="//player.bilibili.com/player.html?aid=386029129&bvid=BV1jd4y1Q7v5&cid=775707691&page=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"  width="550" height="400"> </iframe>
 
 <h3>LED灯带连接</h3>
 <div class="demos-content-paragraph">
 <p>目前比较流行有基于WS2811或者WS2812的灯带。两种灯带的控制方式相似，都是由三个管脚分别控制电源，地和信号。WS2812的时序会比WS2811快一些; 两种灯带都可以选择不同的输入电压，比如5V, 12V等，更高的电压会提供灯带更强的亮度。该项目使用的是基于WS2811的灯带，输入电压为5V。但平台同时还支持WS2812和其他输入电压，用户需要用命令配置平台即可。</p>
-<p>下图展示了物联网平台和灯带的连接。为了方便，这里直接用迷你测试钩连接平台的相应管脚和灯带。</p>
+<p>下图展示了嵌入式平台和灯带的连接。为了方便，这里直接用迷你测试钩连接平台的相应管脚和灯带。</p>
 <img src="/img/led_strip_control/connections.png" style="max-width: 600px; height:auto" alt="">
 <img src="/img/led_strip_control/led_strip_photo.png" style="max-width: 600px; height:auto" alt="">
 <h4>WS2811介绍</h4>
@@ -35,7 +35,7 @@
 <p>WS2811一个很重要的功能是，它可以进行串联，继而控制多个LED。在上图的数据传输方法一图中，如果每个24比特发送的间隔小于复位时间(50微秒)，那么控制芯片会将接下来的信号从DOUT端口发出，如果DOUT端口连接着下一个控制芯片的DIN，那么即可控制下一个LED。</p>
 
 <h4>Advance Output硬件操作</h3>
-<p>物联网开发平台提供了Advance Output即高级输出功能，该功能可以重新定义逻辑1和0的产生方式。比如可以定义1为高电平10微秒然后低电平20微秒;0为高电平50微秒，低电平80微秒。那么接下来数据都会依照该定义在高级输出端口产生对应的电平信号。</p>
+<p>嵌入式开发平台提供了Advance Output即高级输出功能，该功能可以重新定义逻辑1和0的产生方式。比如可以定义1为高电平10微秒然后低电平20微秒;0为高电平50微秒，低电平80微秒。那么接下来数据都会依照该定义在高级输出端口产生对应的电平信号。</p>
 <p>比如，下面的命令将逻辑1定义为长度为2.5微秒，高电平1.2微秒；逻辑0定义为长度2.5微秒，高电平0.5微秒。然后以该定义在高级输出端口发送105, 105, 105 (设置LED为白光)。</p>
 <pre>
 curl --location --request POST "$RECTCREAM_IP/hardware/operation" --header 'Content-Type: application/json' --data-raw '{
